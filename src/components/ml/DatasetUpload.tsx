@@ -26,7 +26,12 @@ export const DatasetUpload = ({ onUploadSuccess }: DatasetUploadProps) => {
       toast.success('Dataset subido exitosamente');
       onUploadSuccess(dataset);
     } catch (error) {
-      toast.error('Error al subir el dataset');
+      const errorMessage = error instanceof Error ? error.message : 'Error al subir el dataset';
+      if (errorMessage.includes('Failed to fetch')) {
+        toast.error('No se puede conectar con el servidor Python. Verifica que tu API esté corriendo en localhost:8000');
+      } else {
+        toast.error(errorMessage);
+      }
       console.error(error);
     } finally {
       setUploading(false);
@@ -52,29 +57,42 @@ export const DatasetUpload = ({ onUploadSuccess }: DatasetUploadProps) => {
   };
 
   return (
-    <Card>
+    <Card className="border-border/50 shadow-lg bg-card/80 backdrop-blur-sm">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <FileSpreadsheet className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-xl">
+          <div className="p-2 rounded-lg bg-primary/10">
+            <FileSpreadsheet className="h-5 w-5 text-primary" />
+          </div>
           Subir Dataset
         </CardTitle>
-        <CardDescription>
-          Sube tus datos en formato CSV o XLSX
+        <CardDescription className="text-sm">
+          Sube tus datos en formato CSV o XLSX para comenzar el entrenamiento
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div
-          className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-            dragActive ? 'border-primary bg-accent' : 'border-border'
+          className={`border-2 border-dashed rounded-xl p-10 text-center transition-all duration-300 ${
+            dragActive 
+              ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10 scale-[1.02]' 
+              : 'border-border/50 hover:border-primary/50 hover:bg-accent/50'
           }`}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDrag}
           onDrop={handleDrop}
         >
-          <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-          <p className="text-sm text-muted-foreground mb-4">
-            Arrastra tu archivo aquí o haz clic para seleccionar
+          <div className={`inline-block p-4 rounded-2xl mb-4 transition-all ${
+            dragActive ? 'bg-primary/20 scale-110' : 'bg-muted'
+          }`}>
+            <Upload className={`h-10 w-10 transition-colors ${
+              dragActive ? 'text-primary' : 'text-muted-foreground'
+            }`} />
+          </div>
+          <p className="text-base font-medium mb-2">
+            {dragActive ? '¡Suelta tu archivo aquí!' : 'Arrastra tu archivo'}
+          </p>
+          <p className="text-sm text-muted-foreground mb-6">
+            o haz clic en el botón para seleccionar
           </p>
           <input
             type="file"
@@ -87,8 +105,20 @@ export const DatasetUpload = ({ onUploadSuccess }: DatasetUploadProps) => {
           <Button
             onClick={() => document.getElementById('file-upload')?.click()}
             disabled={uploading}
+            className="px-8 shadow-lg shadow-primary/20"
+            size="lg"
           >
-            {uploading ? 'Subiendo...' : 'Seleccionar archivo'}
+            {uploading ? (
+              <>
+                <Upload className="mr-2 h-4 w-4 animate-pulse" />
+                Subiendo...
+              </>
+            ) : (
+              <>
+                <FileSpreadsheet className="mr-2 h-4 w-4" />
+                Seleccionar Archivo
+              </>
+            )}
           </Button>
         </div>
       </CardContent>

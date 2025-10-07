@@ -45,37 +45,39 @@ export const ModelConfig = ({ onStartTraining, disabled }: ModelConfigProps) => 
   };
 
   return (
-    <Card>
+    <Card className="border-border/50 shadow-lg bg-card/80 backdrop-blur-sm">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Settings className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-xl">
+          <div className="p-2 rounded-lg bg-primary/10">
+            <Settings className="h-5 w-5 text-primary" />
+          </div>
           Configuración del Modelo
         </CardTitle>
-        <CardDescription>
-          Configura los parámetros de entrenamiento
+        <CardDescription className="text-sm">
+          Ajusta los parámetros para optimizar el entrenamiento
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="model-type">Tipo de Modelo</Label>
+            <Label htmlFor="model-type" className="text-sm font-medium">Tipo de Modelo</Label>
             <Select value={modelType} onValueChange={handleModelTypeChange}>
-              <SelectTrigger id="model-type">
+              <SelectTrigger id="model-type" className="h-11">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="classification">Clasificación</SelectItem>
-                <SelectItem value="regression">Regresión</SelectItem>
-                <SelectItem value="clustering">Clustering</SelectItem>
-                <SelectItem value="deep_learning">Deep Learning</SelectItem>
+                <SelectItem value="classification">🎯 Clasificación</SelectItem>
+                <SelectItem value="regression">📈 Regresión</SelectItem>
+                <SelectItem value="clustering">🔍 Clustering</SelectItem>
+                <SelectItem value="deep_learning">🧠 Deep Learning</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="algorithm">Algoritmo</Label>
+            <Label htmlFor="algorithm" className="text-sm font-medium">Algoritmo</Label>
             <Select value={algorithm} onValueChange={setAlgorithm}>
-              <SelectTrigger id="algorithm">
+              <SelectTrigger id="algorithm" className="h-11">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -90,7 +92,7 @@ export const ModelConfig = ({ onStartTraining, disabled }: ModelConfigProps) => 
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="test-size">Test Size</Label>
+              <Label htmlFor="test-size" className="text-sm font-medium">Test Size</Label>
               <Input
                 id="test-size"
                 type="number"
@@ -99,22 +101,29 @@ export const ModelConfig = ({ onStartTraining, disabled }: ModelConfigProps) => 
                 step="0.05"
                 value={testSize}
                 onChange={(e) => setTestSize(parseFloat(e.target.value))}
+                className="h-11"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="random-state">Random State</Label>
+              <Label htmlFor="random-state" className="text-sm font-medium">Random State</Label>
               <Input
                 id="random-state"
                 type="number"
                 value={randomState}
                 onChange={(e) => setRandomState(parseInt(e.target.value))}
+                className="h-11"
               />
             </div>
           </div>
 
-          <Button type="submit" className="w-full" disabled={disabled}>
-            <Play className="mr-2 h-4 w-4" />
+          <Button 
+            type="submit" 
+            className="w-full shadow-lg shadow-primary/20" 
+            disabled={disabled}
+            size="lg"
+          >
+            <Play className="mr-2 h-5 w-5" />
             Iniciar Entrenamiento
           </Button>
         </form>

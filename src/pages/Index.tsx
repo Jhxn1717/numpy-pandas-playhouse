@@ -59,25 +59,31 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/20">
       {/* Header */}
-      <header className="border-b border-border bg-card">
+      <header className="border-b border-border/40 bg-card/80 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
-            <Brain className="h-8 w-8 text-primary" />
-            <div>
-              <h1 className="text-3xl font-bold">Sistema de Entrenamiento ML</h1>
-              <p className="text-muted-foreground">
-                Entrena modelos con Python + NumPy, Pandas, PyTorch y Scikit-Learn
-              </p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-primary to-primary/70 shadow-lg shadow-primary/20">
+                <Brain className="h-7 w-7 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                  ML Training Platform
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                  Python • NumPy • Pandas • PyTorch • Scikit-Learn
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-2 gap-6">
+      <main className="container mx-auto px-4 py-8 pb-12">
+        <div className="grid lg:grid-cols-2 gap-8">
           {/* Left Column */}
           <div className="space-y-6">
             <DatasetUpload onUploadSuccess={handleUploadSuccess} />
@@ -97,16 +103,40 @@ const Index = () => {
         </div>
 
         {/* Info Footer */}
-        <div className="mt-8 p-6 bg-muted/50 rounded-lg border border-border">
-          <h3 className="font-semibold mb-2">📡 Conexión con API de Python</h3>
-          <p className="text-sm text-muted-foreground mb-2">
-            Este frontend se conecta a tu API de Python. Para conectarla:
-          </p>
-          <ol className="text-sm text-muted-foreground space-y-1 list-decimal list-inside">
-            <li>Configura la URL de tu API en <code className="bg-muted px-1 rounded">src/services/mlApi.ts</code></li>
-            <li>Implementa los endpoints necesarios en tu backend de Python</li>
-            <li>Asegúrate de habilitar CORS en tu API</li>
-          </ol>
+        <div className="mt-12 p-8 bg-card/60 backdrop-blur-sm rounded-2xl border border-border/50 shadow-xl">
+          <div className="flex items-start gap-4">
+            <div className="p-3 rounded-lg bg-primary/10">
+              <Brain className="h-6 w-6 text-primary" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                Conexión con Backend Python
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Este frontend está listo para conectarse a tu API de Python. Para comenzar:
+              </p>
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="p-4 rounded-lg bg-muted/50 border border-border/30">
+                  <div className="font-medium text-sm mb-1">1. Configura la URL</div>
+                  <p className="text-xs text-muted-foreground">
+                    En <code className="bg-background/80 px-1.5 py-0.5 rounded text-primary">mlApi.ts</code>
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-muted/50 border border-border/30">
+                  <div className="font-medium text-sm mb-1">2. Implementa Endpoints</div>
+                  <p className="text-xs text-muted-foreground">
+                    Consulta <code className="bg-background/80 px-1.5 py-0.5 rounded text-primary">ML_API_GUIDE.md</code>
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-muted/50 border border-border/30">
+                  <div className="font-medium text-sm mb-1">3. Habilita CORS</div>
+                  <p className="text-xs text-muted-foreground">
+                    En tu servidor FastAPI/Flask
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>
